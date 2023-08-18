@@ -1,1 +1,1 @@
-gcc ngl.c -std=c23 -o ngl
+gcc ngl.c -std=c2x -o ngl -l png
