@@ -5,142 +5,150 @@
 
 int main(int argc, char* argv[])
 {
-    char *name1, *name2, *name3;
+    char* nam = "";
+    char* nam1 = "";
+    char* nam2 = "";
 
-    float r1, r2;
-    float g1, g2;
-    float b1, b2;
+    int dx = 0;
+    int dy = 0;
 
-    int ox;
-    int oy;
+    double cr1 = 0.5;
+    double cr2 = 0.5;
 
-    for(int i = 1; i < argc; i++)
+    double cg1 = 0.5;
+    double cg2 = 0.5;
+
+    double cb1 = 0.5;
+    double cb2 = 0.5;
+
+    for(int a = 1; a < argc - 1; a++)
     {
-        if(strcmp(argv[i], "-i1") == 0)
+        if(strcmp(argv[a], "-ii") == 0)
         {
-            if(i + 1 < argc)
+            nam = argv[++a];
+        }
+
+        else if(strcmp(argv[a], "-i1") == 0)
+        {
+            nam1 = argv[++a];
+        }
+
+        else if(strcmp(argv[a], "-i2") == 0)
+        {
+            nam2 = argv[++a];
+        }
+
+        else if(strcmp(argv[a], "-dx") == 0)
+        {
+            if(sscanf(argv[++a], "%d", &dx) == 0)
             {
-                name1 = argv[i + 1];
-                i++;
+                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
+                return 0;
             }
         }
 
-        else if(strcmp(argv[i], "-i2") == 0)
+        else if(strcmp(argv[a], "-dy") == 0)
         {
-            if(i + 1 < argc)
+            if(sscanf(argv[++a], "%d", &dy) == 0)
             {
-                name2 = argv[i + 1];
-                i++;
+                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
+                return 0;
             }
         }
 
-        else if(strcmp(argv[i], "-ii") == 0)
+        else if(strcmp(argv[a], "-r1") == 0)
         {
-            if(i + 1 < argc)
+            if(sscanf(argv[++a], "%lf", &cr1) == 0)
             {
-                name3 = argv[i + 1];
-                i++;
+                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
+                return 0;
             }
         }
 
-        else if(strcmp(argv[i], "-r1") == 0)
+        else if(strcmp(argv[a], "-r2") == 0)
         {
-            if(i + 1 < argc)
+            if(sscanf(argv[++a], "%lf", &cr2) == 0)
             {
-                if(sscanf(argv[i + 1], "%f", &r1) == 1)
-                {
-                    i++;
-                }
+                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
+                return 0;
             }
         }
 
-        else if(strcmp(argv[i], "-g1") == 0)
+        else if(strcmp(argv[a], "-g1") == 0)
         {
-            if(i + 1 < argc)
+            if(sscanf(argv[++a], "%lf", &cg1) == 0)
             {
-                if(sscanf(argv[i + 1], "%f", &g1) == 1)
-                {
-                    i++;
-                }
+                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
+                return 0;
             }
         }
 
-        else if(strcmp(argv[i], "-b1") == 0)
+        else if(strcmp(argv[a], "-g2") == 0)
         {
-            if(i + 1 < argc)
+            if(sscanf(argv[++a], "%lf", &cg2) == 0)
             {
-                if(sscanf(argv[i + 1], "%f", &b1) == 1)
-                {
-                    i++;
-                }
+                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
+                return 0;
             }
         }
 
-        else if(strcmp(argv[i], "-r2") == 0)
+        else if(strcmp(argv[a], "-b1") == 0)
         {
-            if(i + 1 < argc)
+            if(sscanf(argv[++a], "%lf", &cb1) == 0)
             {
-                if(sscanf(argv[i + 1], "%f", &r2) == 1)
-                {
-                    i++;
-                }
+                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
+                return 0;
             }
         }
 
-        else if(strcmp(argv[i], "-g2") == 0)
+        else if(strcmp(argv[a], "-b2") == 0)
         {
-            if(i + 1 < argc)
+            if(sscanf(argv[++a], "%lf", &cb2) == 0)
             {
-                if(sscanf(argv[i + 1], "%f", &g2) == 1)
-                {
-                    i++;
-                }
-            }
-        }
-
-        else if(strcmp(argv[i], "-b2") == 0)
-        {
-            if(i + 1 < argc)
-            {
-                if(sscanf(argv[i + 1], "%f", &b2) == 1)
-                {
-                    i++;
-                }
-            }
-        }
-
-        else if(strcmp(argv[i], "-ox") == 0)
-        {
-            if(i + 1 < argc)
-            {
-                if(sscanf(argv[i + 1], "%d", &ox) == 1)
-                {
-                    i++;
-                }
-            }
-        }
-
-        else if(strcmp(argv[i], "-oy") == 0)
-        {
-            if(i + 1 < argc)
-            {
-                if(sscanf(argv[i + 1], "%d", &oy) == 1)
-                {
-                    i++;
-                }
+                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
+                return 0;
             }
         }
     }
 
-    printf("name1:%s\n", name1);
-    printf("name2:%s\n", name2);
-    printf("name3:%s\n", name3);
-    printf("r1:%f\n", r1);
-    printf("g1:%f\n", g1);
-    printf("b1:%f\n", b1);
-    printf("r2:%f\n", r2);
-    printf("g2:%f\n", g2);
-    printf("b2:%f\n", b2);
+    printf("name:%s\n", nam);
+    printf("name1:%s\n", nam1);
+    printf("name2:%s\n", nam2);
+    printf("dx:%d\n", dx);
+    printf("dy:%d\n", dy);
+    printf("cr1:%f\n", cr1);
+    printf("cr2:%f\n", cr2);
+    printf("cg1:%f\n", cg1);
+    printf("cg2:%f\n", cg2);
+    printf("cb1:%f\n", cb1);
+    printf("cb2:%f\n", cb2);
+
+    int dx1, dx2;
+    int dy1, dy2;
+
+    if(dx > 0)
+    {
+        dx1 = 0;
+        dx2 = dx;
+    }
+
+    else
+    {
+        dx1 = -dx;
+        dx2 = 0;
+    }
+
+    if(dy > 0)
+    {
+        dy1 = 0;
+        dy2 = dy;
+    }
+
+    else
+    {
+        dy1 = -dy;
+        dy2 = 0;
+    }
 
     /*
     FILE* file1 = fopen(name1, "r");

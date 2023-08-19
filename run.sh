@@ -1,1 +1,1 @@
-./ngl -i1 picture1.png -r1 1 -g1 0 -b1 0 -i2 picture2.png -r2 0 -g2 1 -b2 1 -ox 0 -oy 0 -ii anaglyph.png
+./ngl -ii anaglyph.png -i1 picture1.png -i2 picture2.png -dx 0 -dy 0 -r1 0 -r2 1 -g1 0 -g2 2.2 -b1 0.2 -b2 0.3
