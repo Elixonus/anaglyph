@@ -1,1 +1,1 @@
-gcc ngl.c -std=c2x -o ngl -l png
+gcc ngl.c -std=c2x -o ngl -lm
