@@ -1,33 +1,33 @@
 #include <stdio.h>
 
-struct pxl {
-    double r;
-    double g;
-    double b;
-};
-
-int enc(struct pxl** img, int lx, int ly, FILE* file)
+int enc(int lx, int ly, float img[lx][ly][3], FILE* file)
 {
-    fwrite(lx)
+    fwrite(&lx, sizeof(int), 1, file);
+    fwrite(&ly, sizeof(int), 1, file);
+
+    fwrite(img, sizeof(float), lx * ly * 3, file);
 
     return 0;
 }
 
-int dec(FILE* file, struct pxl** img, int* plx, int* ply)
+int dec(FILE* file, int* lx, int* ly, float img[*lx][*ly][3])
 {
-    fread(plx, 4, 1, file);
-    fread(ply, 4, 1, file);
+    fread(lx, sizeof(int), 1, file);
+    fread(ly, sizeof(int), 1, file);
 
-    for(int x = 0; x < *plx; x++)
-    {
-        fread(img[x], sizeof(struct pxl), *ply, file);
-    }
+    fread(img, sizeof(float), (*lx) * (*ly) * 3, file);
 
     return 0;
 }
 
 int main(int argc, char* argv[])
 {
-    printf("Hello");
+    printf("Hello World!");
+
+    float img[2][2][3] = {{{0.0f, 1.1f, 2.2f}, {3.3f, 4.4f, 5.5f}}, {{6.6f, 7.7f, 8.8f}, {9.9f, 9.1f, 9.2f}}};
+    FILE* file = fopen("testw.b", "wb");
+    enc(2, 2, img, file);
+    fclose(file);
+
     return 0;
 }
