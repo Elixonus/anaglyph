@@ -12,14 +12,14 @@ int main(int argc, char* argv[])
     int dx = 0;
     int dy = 0;
 
-    double cr1 = 0.5;
-    double cr2 = 0.5;
+    float cr1 = 0.5;
+    float cr2 = 0.5;
 
-    double cg1 = 0.5;
-    double cg2 = 0.5;
+    float cg1 = 0.5;
+    float cg2 = 0.5;
 
-    double cb1 = 0.5;
-    double cb2 = 0.5;
+    float cb1 = 0.5;
+    float cb2 = 0.5;
 
     for(int a = 1; a < argc - 1; a++)
     {
@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 
         else if(strcmp(argv[a], "-r1") == 0)
         {
-            if(sscanf(argv[++a], "%lf", &cr1) == 0)
+            if(sscanf(argv[++a], "%f", &cr1) == 0)
             {
                 fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
                 return 0;
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 
         else if(strcmp(argv[a], "-r2") == 0)
         {
-            if(sscanf(argv[++a], "%lf", &cr2) == 0)
+            if(sscanf(argv[++a], "%f", &cr2) == 0)
             {
                 fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
                 return 0;
@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
 
         else if(strcmp(argv[a], "-g1") == 0)
         {
-            if(sscanf(argv[++a], "%lf", &cg1) == 0)
+            if(sscanf(argv[++a], "%f", &cg1) == 0)
             {
                 fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
                 return 0;
@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
 
         else if(strcmp(argv[a], "-g2") == 0)
         {
-            if(sscanf(argv[++a], "%lf", &cg2) == 0)
+            if(sscanf(argv[++a], "%f", &cg2) == 0)
             {
                 fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
                 return 0;
@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
 
         else if(strcmp(argv[a], "-b1") == 0)
         {
-            if(sscanf(argv[++a], "%lf", &cb1) == 0)
+            if(sscanf(argv[++a], "%f", &cb1) == 0)
             {
                 fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
                 return 0;
@@ -103,7 +103,7 @@ int main(int argc, char* argv[])
 
         else if(strcmp(argv[a], "-b2") == 0)
         {
-            if(sscanf(argv[++a], "%lf", &cb2) == 0)
+            if(sscanf(argv[++a], "%f", &cb2) == 0)
             {
                 fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
                 return 0;
@@ -122,6 +122,9 @@ int main(int argc, char* argv[])
     printf("cg2:%f\n", cg2);
     printf("cb1:%f\n", cb1);
     printf("cb2:%f\n", cb2);
+
+    FILE* file1 = fopen(name1, "rb");
+    FILE* file2 = fopen(name2, "rb");
 
     int dx1;
     int dy1;
@@ -159,14 +162,8 @@ int main(int argc, char* argv[])
     int lx2;
     int ly2;
 
-    FILE* file1 = fopen(name1, "rb");
-    FILE* file2 = fopen(name2, "rb");
-
-    fread(&lx1, sizeof(int), 1, file1);
-    fread(&ly1, sizeof(int), 1, file1);
-
-    fread(&lx2, sizeof(int), 1, file2);
-    fread(&ly2, sizeof(int), 1, file2);
+    dech(file1, &lx1, &ly1);
+    dech(file2, &lx2, &ly2);
 
     printf("lx1:%d\n", lx1);
     printf("ly1:%d\n", ly1);
@@ -199,23 +196,12 @@ int main(int argc, char* argv[])
     printf("lx:%d\n", lx);
     printf("ly:%d\n", ly);
 
-    struct pxl img1[lx1][ly1];
-    struct pxl img2[lx2][ly2];
+    float img[lx][ly][3];
+    float img1[lx1][ly1][3];
+    float img2[lx2][ly2][3];
 
-    for(int x1 = 0; x1 < lx1; x1++)
-    {
-        fread(&img1[x1], sizeof(struct pxl), ly1, file1);
-    }
-
-    for(int x2 = 0; x2 < lx2; x2++)
-    {
-        fread(&img2[x2], sizeof(struct pxl), ly2, file2);
-    }
-/*
-    double bufr[lx][ly][3];
-    double bufr1[lx1][ly1][3];
-    double bufr2[lx2][ly2][3];
-
+    decb(file1, lx1, ly1, img1);
+    decb(file2, lx2, ly2, img2);
 
     for(int x = 0; x < lx; x++)
     {
@@ -227,52 +213,51 @@ int main(int argc, char* argv[])
             int x2 = x - dx2;
             int y2 = y - dy2;
 
-            double r1;
-            double g1;
-            double b1;
+            float r1;
+            float g1;
+            float b1;
+
+            float r2;
+            float g2;
+            float b2;
 
             if(x1 >= 0 && y1 >= 0 && x1 < lx1 && y1 < ly1)
             {
-                r1 = buf1[x1][y1][0];
-                g1 = buf1[x1][y1][1];
-                b1 = buf1[x1][y1][2];
+                r1 = img1[x1][y1][0];
+                g1 = img1[x1][y1][1];
+                b1 = img1[x1][y1][2];
             }
 
             else
             {
-                r1 = 0;
-                g1 = 0;
-                b1 = 0;
+                r1 = 0.0f;
+                g1 = 0.0f;
+                b1 = 0.0f;
             }
-
-            double r2;
-            double g2;
-            double b2;
 
             if(x2 >= 0 && y2 >= 0 && x2 < lx2 && y2 < ly2)
             {
-                r2 = buf2[x2][y2][0];
-                g2 = buf2[x2][y2][1];
-                b2 = buf2[x2][y2][2];
+                r2 = img2[x2][y2][0];
+                g2 = img2[x2][y2][1];
+                b2 = img2[x2][y2][2];
             }
 
             else
             {
-                r2 = 0;
-                g2 = 0;
-                b2 = 0;
+                r2 = 0.0f;
+                g2 = 0.0f;
+                b2 = 0.0f;
             }
 
-            double r = r1 * cr1 + r2 * cr2;
-            double g = g1 * cg1 + g2 * cg2;
-            double b = b1 * cb1 + b2 * cb2;
+            float r = r1 * cr1 + r2 * cr2;
+            float g = g1 * cg1 + g2 * cg2;
+            float b = b1 * cb1 + b2 * cb2;
 
-
-            buf[0][0][0] = r;
-            buf[0][0][1] = g;
-            buf[0][0][2] = b;
+            img[x][y][0] = r;
+            img[x][y][1] = g;
+            img[x][y][2] = b;
         }
-    }*/
+    }
     /*
     for(int x = 0; x < lx; x++)
     {
