@@ -1,18 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-
-#include "stb/stb_image.h"
-#include "stb/stb_image_write.h"
+#include "img.h"
 
 int main(int argc, char* argv[])
 {
-    char* nam = "";
-    char* nam1 = "";
-    char* nam2 = "";
+    char* name;
+    char* name1;
+    char* name2;
 
     int dx = 0;
     int dy = 0;
@@ -30,17 +25,17 @@ int main(int argc, char* argv[])
     {
         if(strcmp(argv[a], "-ii") == 0)
         {
-            nam = argv[++a];
+            name = argv[++a];
         }
 
         else if(strcmp(argv[a], "-i1") == 0)
         {
-            nam1 = argv[++a];
+            name1 = argv[++a];
         }
 
         else if(strcmp(argv[a], "-i2") == 0)
         {
-            nam2 = argv[++a];
+            name2 = argv[++a];
         }
 
         else if(strcmp(argv[a], "-dx") == 0)
@@ -116,9 +111,9 @@ int main(int argc, char* argv[])
         }
     }
 
-    printf("name:%s\n", nam);
-    printf("name1:%s\n", nam1);
-    printf("name2:%s\n", nam2);
+    printf("name:%s\n", name);
+    printf("name1:%s\n", name1);
+    printf("name2:%s\n", name2);
     printf("dx:%d\n", dx);
     printf("dy:%d\n", dy);
     printf("cr1:%f\n", cr1);
@@ -128,8 +123,11 @@ int main(int argc, char* argv[])
     printf("cb1:%f\n", cb1);
     printf("cb2:%f\n", cb2);
 
-    int dx1, dx2;
-    int dy1, dy2;
+    int dx1;
+    int dy1;
+
+    int dx2;
+    int dy2;
 
     if(dx > 0)
     {
@@ -155,34 +153,28 @@ int main(int argc, char* argv[])
         dy2 = 0;
     }
 
-    int lx;
-    int ly;
-
     int lx1;
     int ly1;
 
     int lx2;
     int ly2;
 
-    unsigned char* stb1 = stbi_load(nam1, &lx1, &ly1, NULL, 3);
-    unsigned char* stb2 = stbi_load(nam2, &lx2, &ly2, NULL, 3);
+    FILE* file1 = fopen(name1, "rb");
+    FILE* file2 = fopen(name2, "rb");
 
-    if(stb1 == NULL)
-    {
-        fprintf(stderr, "bad filename: %s\n", nam1);
-        return 0;
-    }
+    fread(&lx1, sizeof(int), 1, file1);
+    fread(&ly1, sizeof(int), 1, file1);
 
-    if(stb2 == NULL)
-    {
-        fprintf(stderr, "bad filename: %s\n", nam2);
-        return 0;
-    }
+    fread(&lx2, sizeof(int), 1, file2);
+    fread(&ly2, sizeof(int), 1, file2);
 
     printf("lx1:%d\n", lx1);
     printf("ly1:%d\n", ly1);
     printf("lx2:%d\n", lx2);
     printf("ly2:%d\n", ly2);
+
+    int lx;
+    int ly;
 
     if(lx1 + dx1 > lx2 + dx2)
     {
@@ -207,39 +199,23 @@ int main(int argc, char* argv[])
     printf("lx:%d\n", lx);
     printf("ly:%d\n", ly);
 
-    double buf[lx][ly][3];
-    double buf1[lx1][ly1][3];
-    double buf2[lx2][ly2][3];
-
-    int bruh = 0;
-
-    int t = 0;
+    struct pxl img1[lx1][ly1];
+    struct pxl img2[lx2][ly2];
 
     for(int x1 = 0; x1 < lx1; x1++)
     {
-        for(int y1 = 0; y1 < ly1; y1++)
-        {
-            for(int c1 = 0; c1 < 3; c1++)
-            {
-                buf1[x1][y1][c1] = ((double) stb1[t++]) / 255;
-                // printf("%lf", buf1[x1][y1][c1]);
-            }
-        }
+        fread(&img1[x1], sizeof(struct pxl), ly1, file1);
     }
-
-    t = 0;
 
     for(int x2 = 0; x2 < lx2; x2++)
     {
-        for(int y2 = 0; y2 < ly2; y2++)
-        {
-            for(int c2 = 0; c2 < 3; c2++)
-            {
-                buf1[x2][y2][c2] = ((double) stb2[t++]) / 255;
-                // printf("%lf", buf1[x1][y1][c1]);
-            }
-        }
+        fread(&img2[x2], sizeof(struct pxl), ly2, file2);
     }
+/*
+    double bufr[lx][ly][3];
+    double bufr1[lx1][ly1][3];
+    double bufr2[lx2][ly2][3];
+
 
     for(int x = 0; x < lx; x++)
     {
@@ -296,7 +272,7 @@ int main(int argc, char* argv[])
             buf[0][0][1] = g;
             buf[0][0][2] = b;
         }
-    }
+    }*/
     /*
     for(int x = 0; x < lx; x++)
     {
@@ -308,21 +284,4 @@ int main(int argc, char* argv[])
             }
         }
     }*/
-
-    unsigned char stb[lx * ly * 3];
-
-    t = 0;
-    for(int x = 0; x < lx; x++)
-    {
-        for(int y = 0; y < ly; y++)
-        {
-            for(int c = 0; c < 3; c++)
-            {
-                stb[t++] = (buf[x][y][c] * 255.0);
-                // stb[t++] = (unsigned char) ((double) (x) / lx * 255);
-            }
-        }
-    }
-
-    stbi_write_jpg(nam, lx, ly, 3, stb, 95);
 }

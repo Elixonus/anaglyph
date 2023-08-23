@@ -1,1 +1,1 @@
-gcc ngl.c -std=c2x -o ngl -lm
+gcc src/ngl.c -o bin/ngl -std=c2x -lm
