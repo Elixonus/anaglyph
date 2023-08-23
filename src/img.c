@@ -26,9 +26,9 @@ int decb(FILE* file, int lx, int ly, float img[lx][ly][3])
     return 0;
 }
 
-int main(int argc, char* argv[])
+/*int main(int argc, char* argv[])
 {
-    printf("Hello World!");
+    printf("Hello World!");*/
 /*
     float img[2][2][3] = {{{0.0f, 1.1f, 2.2f}, {3.3f, 4.4f, 5.5f}}, {{6.6f, 7.7f, 8.8f}, {9.9f, 9.1f, 9.2f}}};
     FILE* file = fopen("testw.b", "wb");
@@ -41,6 +41,7 @@ int main(int argc, char* argv[])
     printf("lx%d, ly%d\n", lx, ly);
     dec(file, &lx, &ly, img);
     printf("%d,%d,%f", lx, ly, img[0][1][1]);
-*/
+*//*
     return 0;
 }
+*/

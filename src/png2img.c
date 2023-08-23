@@ -1,12 +1,13 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-
+#include "img.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb/stb_image.h"
 
 int main(int argc, char* argv[])
 {
     char* namep;
-    char* namem;
+    char* namei;
 
     for(int a = 1; a < argc - 1; a++)
     {
@@ -15,20 +16,40 @@ int main(int argc, char* argv[])
             namep = argv[++a];
         }
 
-        else if(strcmp(argv[a], "-m") == 0)
+        else if(strcmp(argv[a], "-i") == 0)
         {
-            namem = argv[++a];
+            namei = argv[++a];
         }
 
         else
         {
-            fprintf(stderr, "bad argument: %s (%d)", argv[a], a);
+            fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
+            return 0;
         }
     }
 
-    FILE* filep = fopen(namep, "rb");
+    FILE* filei = fopen(namei, "wb");
 
-    FILE* filem = fopen(namem, "wb");
+    int lx;
+    int ly;
+
+    unsigned char* stb = stbi_load(namep, &lx, &ly, NULL, 3);
+    float img[lx][ly][3];
+
+    int p = 0;
+
+    for(int y = 0; y < ly; y++)
+    {
+        for(int x = 0; x < lx; x++)
+        {
+            img[x][y][0] = ((float) stb[p++]) / 255;
+            img[x][y][1] = ((float) stb[p++]) / 255;
+            img[x][y][2] = ((float) stb[p++]) / 255;
+        }
+    }
+
+    ench(lx, ly, filei);
+    encb(lx, ly, img, filei);
 
     return 0;
 }
