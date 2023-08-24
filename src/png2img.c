@@ -28,8 +28,6 @@ int main(int argc, char* argv[])
         }
     }
 
-    FILE* filei = fopen(namei, "wb");
-
     int lx;
     int ly;
 
@@ -48,8 +46,10 @@ int main(int argc, char* argv[])
         }
     }
 
-    ench(lx, ly, filei);
-    encb(lx, ly, img, filei);
+    FILE* file = fopen(namei, "wb");
+
+    ench(lx, ly, file);
+    encb(lx, ly, img, file);
 
     return 0;
 }

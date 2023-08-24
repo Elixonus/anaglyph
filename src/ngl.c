@@ -203,6 +203,9 @@ int main(int argc, char* argv[])
     decb(file1, lx1, ly1, img1);
     decb(file2, lx2, ly2, img2);
 
+    fclose(file1);
+    fclose(file2);
+
     for(int x = 0; x < lx; x++)
     {
         for(int y = 0; y < ly; y++)
@@ -258,15 +261,11 @@ int main(int argc, char* argv[])
             img[x][y][2] = b;
         }
     }
-    /*
-    for(int x = 0; x < lx; x++)
-    {
-        for(int y = 0; y < ly; y++)
-        {
-            for(int c = 0; c < 3; c++)
-            {
-                printf("%lf;", buf[x][y][c]);
-            }
-        }
-    }*/
+
+    FILE* file = fopen(name, "wb");
+
+    ench(lx, ly, file);
+    encb(lx, ly, img, file);
+
+    fclose(file);
 }
