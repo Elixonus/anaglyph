@@ -23,83 +23,92 @@ int main(int argc, char* argv[])
 
     for(int a = 1; a < argc - 1; a++)
     {
-        if(strcmp(argv[a], "-ii") == 0)
+        if(strlen(argv[a]) > 0 && argv[a][0] == '-')
         {
-            name = argv[++a];
-        }
+            if(strcmp(argv[a], "-ii") == 0)
+            {
+                name = argv[++a];
+            }
 
-        else if(strcmp(argv[a], "-i1") == 0)
-        {
-            name1 = argv[++a];
-        }
+            else if(strcmp(argv[a], "-i1") == 0)
+            {
+                name1 = argv[++a];
+            }
 
-        else if(strcmp(argv[a], "-i2") == 0)
-        {
-            name2 = argv[++a];
-        }
+            else if(strcmp(argv[a], "-i2") == 0)
+            {
+                name2 = argv[++a];
+            }
 
-        else if(strcmp(argv[a], "-dx") == 0)
-        {
-            sscanf(argv[++a], "%d", &dx);
-        }
+            else if(strcmp(argv[a], "-dx") == 0)
+            {
+                sscanf(argv[++a], "%d", &dx);
+            }
 
-        else if(strcmp(argv[a], "-dy") == 0)
-        {
-            sscanf(argv[++a], "%d", &dy);
-        }
+            else if(strcmp(argv[a], "-dy") == 0)
+            {
+                sscanf(argv[++a], "%d", &dy);
+            }
 
-        else if(strcmp(argv[a], "-r1") == 0)
-        {
-            sscanf(argv[++a], "%f", &cr1);
-        }
+            else if(strcmp(argv[a], "-r1") == 0)
+            {
+                sscanf(argv[++a], "%f", &cr1);
+            }
 
-        else if(strcmp(argv[a], "-r2") == 0)
-        {
-            sscanf(argv[++a], "%f", &cr2);
-        }
+            else if(strcmp(argv[a], "-r2") == 0)
+            {
+                sscanf(argv[++a], "%f", &cr2);
+            }
 
-        else if(strcmp(argv[a], "-g1") == 0)
-        {
-            sscanf(argv[++a], "%f", &cg1);
-        }
+            else if(strcmp(argv[a], "-g1") == 0)
+            {
+                sscanf(argv[++a], "%f", &cg1);
+            }
 
-        else if(strcmp(argv[a], "-g2") == 0)
-        {
-            sscanf(argv[++a], "%f", &cg2);
-        }
+            else if(strcmp(argv[a], "-g2") == 0)
+            {
+                sscanf(argv[++a], "%f", &cg2);
+            }
 
-        else if(strcmp(argv[a], "-b1") == 0)
-        {
-            sscanf(argv[++a], "%f", &cb1);
-        }
+            else if(strcmp(argv[a], "-b1") == 0)
+            {
+                sscanf(argv[++a], "%f", &cb1);
+            }
 
-        else if(strcmp(argv[a], "-b2") == 0)
-        {
-            sscanf(argv[++a], "%f", &cb2);
+            else if(strcmp(argv[a], "-b2") == 0)
+            {
+                sscanf(argv[++a], "%f", &cb2);
+            }
+
+            else
+            {
+                fprintf(stderr, "bad argument: unrecognized flagged argument: %s (%d)\n", argv[a], a);
+                return 0;
+            }
         }
 
         else
         {
-            fprintf(stderr, "bad argument: %s (%d)", argv[a], a);
+            fprintf(stderr, "bad argument: expected flagged argument: %s (%d)\n", argv[a], a);
             return 0;
         }
     }
 
     if(strlen(name) == 0)
     {
-        fprintf(stderr, "bad filename: %s", name);
+        fprintf(stderr, "bad filename: unprovided argument: -ii\n");
         return 0;
     }
 
     else if(strlen(name1) == 0)
     {
-        fprintf(stderr, "bad filename: %s", name1);
+        fprintf(stderr, "bad filename: unprovided argument: -i1\n");
         return 0;
     }
 
     else if(strlen(name2) == 0)
     {
-        fprintf(stderr, "bad filename: %s", name2);
+        fprintf(stderr, "bad filename: unprovided argument: -i2\n");
         return 0;
     }
 
@@ -109,17 +118,20 @@ int main(int argc, char* argv[])
 
     if(file == NULL)
     {
-        fprintf(stderr, "bad filename: %s", name);
+        fprintf(stderr, "bad filename: unable to open file for writing: %s (-ii)\n", name);
+        return 0;
     }
 
     else if(file1 == NULL)
     {
-        fprintf(stderr, "bad filename: %s", name1);
+        fprintf(stderr, "bad filename: unable to open file for reading: %s (-i1)\n", name);
+        return 0;
     }
 
     else if(file2 == NULL)
     {
-        fprintf(stderr, "bad filename: %s", name2);
+        fprintf(stderr, "bad filename: unable to open file for reading: %s (-i2)\n", name);
+        return 0;
     }
 
     int dx1;
@@ -158,8 +170,17 @@ int main(int argc, char* argv[])
     int lx2;
     int ly2;
 
-    dech(file1, &lx1, &ly1);
-    dech(file2, &lx2, &ly2);
+    if(dech(file1, &lx1, &ly1) != 0)
+    {
+        fprintf(stderr, "bad filename: unable to read image head: %s (-i1)\n", name1);
+        return 0;
+    }
+
+    if(dech(file2, &lx2, &ly2) != 0)
+    {
+        fprintf(stderr, "bad filename: unable to read image head: %s (-i2)\n", name2);
+        return 0;
+    }
 
     int lx;
     int ly;
@@ -188,11 +209,29 @@ int main(int argc, char* argv[])
     float img1[lx1][ly1][3];
     float img2[lx2][ly2][3];
 
-    decb(file1, lx1, ly1, img1);
-    decb(file2, lx2, ly2, img2);
+    if(decb(file1, lx1, ly1, img1) != 0)
+    {
+        fprintf(stderr, "bad filename: unable to read image body: %s (-i1)\n", name1);
+        return 0;
+    }
 
-    fclose(file1);
-    fclose(file2);
+    if(decb(file2, lx2, ly2, img2) != 0)
+    {
+        fprintf(stderr, "bad filename: unable to read image body: %s (-i2)\n", name2);
+        return 0;
+    }
+
+    if(fclose(file1) != 0)
+    {
+        fprintf(stderr, "bad filename: unable to close file: %s (-i1)\n", name1);
+        return 0;
+    }
+
+    if(fclose(file1) != 0)
+    {
+        fprintf(stderr, "bad filename: unable to close file: %s (-i2)\n", name2);
+        return 0;
+    }
 
     for(int x = 0; x < lx; x++)
     {
@@ -250,10 +289,23 @@ int main(int argc, char* argv[])
         }
     }
 
-    ench(lx, ly, file);
-    encb(lx, ly, img, file);
+    if(ench(lx, ly, file) != 0)
+    {
+        fprintf(stderr, "bad filename: unable to write image head: %s (-ii)\n", name);
+        return 0;
+    }
 
-    fclose(file);
+    if(encb(lx, ly, img, file) != 0)
+    {
+        fprintf(stderr, "bad filename: unable to write image body: %s (-ii)\n", name);
+        return 0;
+    }
+
+    if(fclose(file) != 0)
+    {
+        fprintf(stderr, "bad filename: unable to close file: %s (-ii)\n", name);
+        return 0;
+    }
 
     return 0;
 }
