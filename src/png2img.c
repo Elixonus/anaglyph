@@ -6,19 +6,19 @@
 
 int main(int argc, char* argv[])
 {
-    char* namep;
     char* namei;
+    char* nameo;
 
     for(int a = 1; a < argc - 1; a++)
     {
-        if(strcmp(argv[a], "-p") == 0)
-        {
-            namep = argv[++a];
-        }
-
-        else if(strcmp(argv[a], "-i") == 0)
+        if(strcmp(argv[a], "-i") == 0)
         {
             namei = argv[++a];
+        }
+
+        else if(strcmp(argv[a], "-o") == 0)
+        {
+            nameo = argv[++a];
         }
 
         else
@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
     int lx;
     int ly;
 
-    unsigned char* stb = stbi_load(namep, &lx, &ly, NULL, 3);
+    unsigned char* stb = stbi_load(namei, &lx, &ly, NULL, 3);
     float img[lx][ly][3];
 
     int p = 0;
@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    FILE* file = fopen(namei, "wb");
+    FILE* file = fopen(nameo, "wb");
 
     ench(lx, ly, file);
     encb(lx, ly, img, file);

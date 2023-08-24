@@ -7,7 +7,7 @@
 int main(int argc, char* argv[])
 {
     char* namei;
-    char* namep;
+    char* nameo;
 
     for(int a = 1; a < argc - 1; a++)
     {
@@ -16,9 +16,9 @@ int main(int argc, char* argv[])
             namei = argv[++a];
         }
 
-        else if(strcmp(argv[a], "-p") == 0)
+        else if(strcmp(argv[a], "-o") == 0)
         {
-            namep = argv[++a];
+            nameo = argv[++a];
         }
 
         else
@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    stbi_write_png(namep, lx, ly, 3, stb, lx * 3);
+    stbi_write_png(nameo, lx, ly, 3, stb, lx * 3);
 
     return 0;
 }

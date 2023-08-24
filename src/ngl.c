@@ -156,6 +156,11 @@ int main(int argc, char* argv[])
         dy2 = 0;
     }
 
+    printf("dx1:%d\n", dx1);
+    printf("dy1:%d\n", dy1);
+    printf("dx2:%d\n", dx2);
+    printf("dy2:%d\n", dy2);
+
     int lx1;
     int ly1;
 
@@ -211,7 +216,7 @@ int main(int argc, char* argv[])
         for(int y = 0; y < ly; y++)
         {
             int x1 = x - dx1;
-            int y1 = y - dx1;
+            int y1 = y - dy1;
 
             int x2 = x - dx2;
             int y2 = y - dy2;
