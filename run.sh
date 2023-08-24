@@ -1,8 +1,16 @@
 ulimit -s unlimited
 
-export i1=pendulum1.png
-export i2=pendulum2.png
-export ii=pendulum.png
+read -p "input image1: " i1
+read -p "input image2: " i2
+read -p "output image: " ii
+read -p "displacement x: " dx
+read -p "displacement y: " dy
+read -p "coefficient r1: " r1
+read -p "coefficient r2: " r2
+read -p "coefficient g1: " g1
+read -p "coefficient g2: " g2
+read -p "coefficient b1: " b1
+read -p "coefficient b2: " b2
 
 convert $i1 img1.png
 convert $i2 img2.png
@@ -13,7 +21,7 @@ convert $i2 img2.png
 rm -f img1.png
 rm -f img2.png
 
-./bin/ngl -i1 img1 -i2 img2 -ii img
+./bin/ngl -i1 img1 -i2 img2 -ii img -dx $dx -dy $dy -r1 $r1 -r2 $r2 -g1 $g1 -g2 $g2 -b1 $b1 -b2 $b2
 
 rm -f img1
 rm -f img2

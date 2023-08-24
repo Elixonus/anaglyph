@@ -161,9 +161,6 @@ int main(int argc, char* argv[])
     dech(file1, &lx1, &ly1);
     dech(file2, &lx2, &ly2);
 
-    fclose(file1);
-    fclose(file2);
-
     int lx;
     int ly;
 
