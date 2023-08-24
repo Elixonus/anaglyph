@@ -4,14 +4,24 @@ export i1=pendulum1.png
 export i2=pendulum2.png
 export ii=pendulum.png
 
-convert $i1 image1.png
-convert $i2 image2.png
+convert $i1 img1.png
+convert $i2 img2.png
 
-./bin/png2img -i image1.png -o image1
-./bin/png2img -i image2.png -o image2
+./bin/png2img -i img1.png -o img1
+./bin/png2img -i img2.png -o img2
 
-./bin/ngl -i1 image1 -i2 image2 -ii image -dx -200 -dy 200 -r1 1 -r2 0 -g1 0 -g2 1 -b1 0 -b2 1
+rm -f img1.png
+rm -f img2.png
 
-./bin/img2png -i image -o image.png
+./bin/ngl -i1 img1 -i2 img2 -ii img
 
-convert image.png $ii
+rm -f img1
+rm -f img2
+
+./bin/img2png -i img -o img.png
+
+rm -f img
+
+convert img.png $ii
+
+rm -f img.png

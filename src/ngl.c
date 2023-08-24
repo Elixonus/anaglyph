@@ -5,21 +5,21 @@
 
 int main(int argc, char* argv[])
 {
-    char* name;
-    char* name1;
-    char* name2;
+    char* name = "";
+    char* name1 = "";
+    char* name2 = "";
 
     int dx = 0;
     int dy = 0;
 
-    float cr1 = 0.5;
-    float cr2 = 0.5;
+    float cr1 = 0.5f;
+    float cr2 = 0.5f;
 
-    float cg1 = 0.5;
-    float cg2 = 0.5;
+    float cg1 = 0.5f;
+    float cg2 = 0.5f;
 
-    float cb1 = 0.5;
-    float cb2 = 0.5;
+    float cb1 = 0.5f;
+    float cb2 = 0.5f;
 
     for(int a = 1; a < argc - 1; a++)
     {
@@ -40,91 +40,87 @@ int main(int argc, char* argv[])
 
         else if(strcmp(argv[a], "-dx") == 0)
         {
-            if(sscanf(argv[++a], "%d", &dx) == 0)
-            {
-                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
-                return 0;
-            }
+            sscanf(argv[++a], "%d", &dx);
         }
 
         else if(strcmp(argv[a], "-dy") == 0)
         {
-            if(sscanf(argv[++a], "%d", &dy) == 0)
-            {
-                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
-                return 0;
-            }
+            sscanf(argv[++a], "%d", &dy);
         }
 
         else if(strcmp(argv[a], "-r1") == 0)
         {
-            if(sscanf(argv[++a], "%f", &cr1) == 0)
-            {
-                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
-                return 0;
-            }
+            sscanf(argv[++a], "%f", &cr1);
         }
 
         else if(strcmp(argv[a], "-r2") == 0)
         {
-            if(sscanf(argv[++a], "%f", &cr2) == 0)
-            {
-                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
-                return 0;
-            }
+            sscanf(argv[++a], "%f", &cr2);
         }
 
         else if(strcmp(argv[a], "-g1") == 0)
         {
-            if(sscanf(argv[++a], "%f", &cg1) == 0)
-            {
-                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
-                return 0;
-            }
+            sscanf(argv[++a], "%f", &cg1);
         }
 
         else if(strcmp(argv[a], "-g2") == 0)
         {
-            if(sscanf(argv[++a], "%f", &cg2) == 0)
-            {
-                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
-                return 0;
-            }
+            sscanf(argv[++a], "%f", &cg2);
         }
 
         else if(strcmp(argv[a], "-b1") == 0)
         {
-            if(sscanf(argv[++a], "%f", &cb1) == 0)
-            {
-                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
-                return 0;
-            }
+            sscanf(argv[++a], "%f", &cb1);
         }
 
         else if(strcmp(argv[a], "-b2") == 0)
         {
-            if(sscanf(argv[++a], "%f", &cb2) == 0)
-            {
-                fprintf(stderr, "bad argument: %s (%d)\n", argv[a], a);
-                return 0;
-            }
+            sscanf(argv[++a], "%f", &cb2);
+        }
+
+        else
+        {
+            fprintf(stderr, "bad argument: %s (%d)", argv[a], a);
+            return 0;
         }
     }
 
-    printf("name:%s\n", name);
-    printf("name1:%s\n", name1);
-    printf("name2:%s\n", name2);
-    printf("dx:%d\n", dx);
-    printf("dy:%d\n", dy);
-    printf("cr1:%f\n", cr1);
-    printf("cr2:%f\n", cr2);
-    printf("cg1:%f\n", cg1);
-    printf("cg2:%f\n", cg2);
-    printf("cb1:%f\n", cb1);
-    printf("cb2:%f\n", cb2);
+    if(strlen(name) == 0)
+    {
+        fprintf(stderr, "bad filename: %s", name);
+        return 0;
+    }
 
+    else if(strlen(name1) == 0)
+    {
+        fprintf(stderr, "bad filename: %s", name1);
+        return 0;
+    }
+
+    else if(strlen(name2) == 0)
+    {
+        fprintf(stderr, "bad filename: %s", name2);
+        return 0;
+    }
+
+    FILE* file = fopen(name, "wb");
     FILE* file1 = fopen(name1, "rb");
     FILE* file2 = fopen(name2, "rb");
+
+    if(file == NULL)
+    {
+        fprintf(stderr, "bad filename: %s", name);
+    }
+
+    else if(file1 == NULL)
+    {
+        fprintf(stderr, "bad filename: %s", name1);
+    }
+
+    else if(file2 == NULL)
+    {
+        fprintf(stderr, "bad filename: %s", name2);
+    }
 
     int dx1;
     int dy1;
@@ -156,11 +152,6 @@ int main(int argc, char* argv[])
         dy2 = 0;
     }
 
-    printf("dx1:%d\n", dx1);
-    printf("dy1:%d\n", dy1);
-    printf("dx2:%d\n", dx2);
-    printf("dy2:%d\n", dy2);
-
     int lx1;
     int ly1;
 
@@ -170,10 +161,8 @@ int main(int argc, char* argv[])
     dech(file1, &lx1, &ly1);
     dech(file2, &lx2, &ly2);
 
-    printf("lx1:%d\n", lx1);
-    printf("ly1:%d\n", ly1);
-    printf("lx2:%d\n", lx2);
-    printf("ly2:%d\n", ly2);
+    fclose(file1);
+    fclose(file2);
 
     int lx;
     int ly;
@@ -197,9 +186,6 @@ int main(int argc, char* argv[])
     {
         ly = ly2 + dy2;
     }
-
-    printf("lx:%d\n", lx);
-    printf("ly:%d\n", ly);
 
     float img[lx][ly][3];
     float img1[lx1][ly1][3];
@@ -267,10 +253,10 @@ int main(int argc, char* argv[])
         }
     }
 
-    FILE* file = fopen(name, "wb");
-
     ench(lx, ly, file);
     encb(lx, ly, img, file);
 
     fclose(file);
+
+    return 0;
 }
