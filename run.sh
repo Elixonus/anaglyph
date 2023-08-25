@@ -15,8 +15,8 @@ read -p "coefficient b2: " b2
 convert $i1 img1.png
 convert $i2 img2.png
 
-./bin/png2img -i img1.png -o img1
-./bin/png2img -i img2.png -o img2
+./bin/png2 -i img1.png -o img1
+./bin/png2 -i img2.png -o img2
 
 rm -f img1.png
 rm -f img2.png
@@ -26,7 +26,7 @@ rm -f img2.png
 rm -f img1
 rm -f img2
 
-./bin/img2png -i img -o img.png
+./bin/2png -i img -o img.png
 
 rm -f img
 
