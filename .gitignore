@@ -1,5 +1,8 @@
 bin/*
 
+# IDE
+.idea/*
+
 # Prerequisites
 *.d
 

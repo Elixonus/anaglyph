@@ -22,11 +22,6 @@ int ench(int lx, int ly, FILE* file)
 
 int dech(FILE* file, int* lx, int* ly)
 {
-    if(*lx < 1 || *ly < 1)
-    {
-        return 1;
-    }
-
     if(fread(lx, sizeof(int), 1, file) < 1)
     {
         return 1;
@@ -37,11 +32,21 @@ int dech(FILE* file, int* lx, int* ly)
         return 1;
     }
 
+    if(*lx < 1 || *ly < 1)
+    {
+        return 1;
+    }
+
     return 0;
 }
 
 int encb(int lx, int ly, float img[lx][ly][3], FILE* file)
 {
+    if(lx < 1 || ly < 1)
+    {
+        return 1;
+    }
+
     if(fwrite(img, sizeof(float), lx * ly * 3, file) < lx * ly * 3)
     {
         return 1;
@@ -52,6 +57,11 @@ int encb(int lx, int ly, float img[lx][ly][3], FILE* file)
 
 int decb(FILE* file, int lx, int ly, float img[lx][ly][3])
 {
+    if(lx < 1 || ly < 1)
+    {
+        return 1;
+    }
+
     if(fread(img, sizeof(float), lx * ly * 3, file) < lx * ly * 3)
     {
         return 1;

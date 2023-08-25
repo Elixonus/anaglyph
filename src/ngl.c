@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "img.h"
 
@@ -89,7 +88,7 @@ int main(int argc, char* argv[])
 
         else
         {
-            fprintf(stderr, "bad argument: expected flagged argument: %s (%d)\n", argv[a], a);
+            fprintf(stderr, "bad argument: unexpected unflagged argument: %s (%d)\n", argv[a], a);
             return 0;
         }
     }
@@ -100,13 +99,13 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    else if(strlen(name1) == 0)
+    if(strlen(name1) == 0)
     {
         fprintf(stderr, "bad filename: unprovided argument: -i1\n");
         return 0;
     }
 
-    else if(strlen(name2) == 0)
+    if(strlen(name2) == 0)
     {
         fprintf(stderr, "bad filename: unprovided argument: -i2\n");
         return 0;
@@ -122,15 +121,15 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    else if(file1 == NULL)
+    if(file1 == NULL)
     {
-        fprintf(stderr, "bad filename: unable to open file for reading: %s (-i1)\n", name);
+        fprintf(stderr, "bad filename: unable to open file for reading: %s (-i1)\n", name1);
         return 0;
     }
 
-    else if(file2 == NULL)
+    if(file2 == NULL)
     {
-        fprintf(stderr, "bad filename: unable to open file for reading: %s (-i2)\n", name);
+        fprintf(stderr, "bad filename: unable to open file for reading: %s (-i2)\n", name2);
         return 0;
     }
 
@@ -227,7 +226,7 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    if(fclose(file1) != 0)
+    if(fclose(file2) != 0)
     {
         fprintf(stderr, "bad filename: unable to close file: %s (-i2)\n", name2);
         return 0;
