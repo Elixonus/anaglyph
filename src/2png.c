@@ -7,7 +7,7 @@
 int main(int argc, char* argv[])
 {
     char* namei;
-    char* nameo;
+    char* namep;
 
     for(int a = 1; a < argc - 1; a++)
     {
@@ -20,41 +20,41 @@ int main(int argc, char* argv[])
 
             else if(strcmp(argv[a], "-o") == 0)
             {
-                nameo = argv[++a];
+                namep = argv[++a];
             }
 
             else
             {
-                fprintf(stderr, "bad argument: unrecognized flagged argument: %s (%d)\n", argv[a], a);
-                return 0;
+                fprintf(stderr, "bad argument: can't recognize flagged argument: \"%s\" (%d)\n", argv[a], a);
+                return 1;
             }
         }
 
         else
         {
-            fprintf(stderr, "bad argument: unexpected unflagged argument: %s (%d)\n", argv[a], a);
-            return 0;
+            fprintf(stderr, "bad argument: was expecting flagged argument: \"%s\" (%d)\n", argv[a], a);
+            return 1;
         }
     }
 
     if(strlen(namei) == 0)
     {
-        fprintf(stderr, "bad filename: unprovided argument: -i\n");
-        return 0;
+        fprintf(stderr, "need argument: was expecting flagged argument: -i\n");
+        return 1;
     }
 
-    if(strlen(nameo) == 0)
+    if(strlen(namep) == 0)
     {
-        fprintf(stderr, "bad filename: unprovided argument: -o\n");
-        return 0;
+        fprintf(stderr, "need argument: was expecting flagged argument: -o\n");
+        return 1;
     }
 
     FILE* filei = fopen(namei, "rb");
 
     if(filei == NULL)
     {
-        fprintf(stderr, "bad filename: unable to open file for reading: %s (-i)\n", namei);
-        return 0;
+        fprintf(stderr, "bad file: can't open input image file: \"%s\" (-i)\n", namei);
+        return 1;
     }
 
     int lx;
@@ -62,22 +62,22 @@ int main(int argc, char* argv[])
 
     if(dech(filei, &lx, &ly) != 0)
     {
-        fprintf(stderr, "bad filename: unable to read image head: %s (-i)\n", namei);
-        return 0;
+        fprintf(stderr, "bad image: can't read input image head: \"%s\" (-i)\n", namei);
+        return 1;
     }
 
     float img[lx][ly][3];
 
     if(decb(filei, lx, ly, img) != 0)
     {
-        fprintf(stderr, "bad filename: unable to read image body: %s (-i)\n", namei);
-        return 0;
+        fprintf(stderr, "bad image: can't read input image body: \"%s\" (-i)\n", namei);
+        return 1;
     }
 
     if(fclose(filei) != 0)
     {
-        fprintf(stderr, "bad filename: unable to close file: %s (-i)\n", namei);
-        return 0;
+        fprintf(stderr, "bad file: can't close input file: \"%s\" (-i)\n", namei);
+        return 1;
     }
 
     unsigned char stb[lx * ly * 3];
@@ -94,10 +94,10 @@ int main(int argc, char* argv[])
         }
     }
 
-    if(stbi_write_png(nameo, lx, ly, 3, stb, lx * 3) != 0)
+    if(stbi_write_png(namep, lx, ly, 3, stb, lx * 3) != 0)
     {
-        fprintf(stderr, "bad filename: unable to write image: %s (-o)\n", nameo);
-        return 0;
+        fprintf(stderr, "bad image: unable to write image: \"%s\" (-o)\n", namep);
+        return 1;
     }
 
     return 0;

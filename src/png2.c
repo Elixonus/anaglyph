@@ -6,8 +6,8 @@
 
 int main(int argc, char* argv[])
 {
+    char* namep;
     char* namei;
-    char* nameo;
 
     for(int a = 1; a < argc - 1; a++)
     {
@@ -15,52 +15,52 @@ int main(int argc, char* argv[])
         {
             if(strcmp(argv[a], "-i") == 0)
             {
-                namei = argv[++a];
+                namep = argv[++a];
             }
 
             else if(strcmp(argv[a], "-o") == 0)
             {
-                nameo = argv[++a];
+                namei = argv[++a];
             }
 
             else
             {
-                fprintf(stderr, "bad argument: unrecognized flagged argument: %s (%d)\n", argv[a], a);
-                return 0;
+                fprintf(stderr, "bad argument: can't recognize flagged argument: \"%s\" (%d)\n", argv[a], a);
+                return 1;
             }
         }
 
         else
         {
-            fprintf(stderr, "bad argument: unexpected unflagged argument: %s (%d)\n", argv[a], a);
-            return 0;
+            fprintf(stderr, "bad argument: was expecting flagged argument: \"%s\" (%d)\n", argv[a], a);
+            return 1;
         }
+    }
+
+    if(strlen(namep) == 0)
+    {
+        fprintf(stderr, "need argument: was expecting flagged argument: -i\n");
+        return 1;
     }
 
     if(strlen(namei) == 0)
     {
-        fprintf(stderr, "bad filename: unprovided argument: -i\n");
-        return 0;
+        fprintf(stderr, "need argument: was expecting flagged argument: -o\n");
+        return 1;
     }
 
-    if(strlen(nameo) == 0)
-    {
-        fprintf(stderr, "bad filename: unprovided argument: -o\n");
-        return 0;
-    }
+    FILE* filei = fopen(namei, "wb");
 
-    FILE* fileo = fopen(nameo, "wb");
-
-    if(fileo == NULL)
+    if(filei == NULL)
     {
-        fprintf(stderr, "bad filename: unable to open file for writing: %s (-i)\n", nameo);
-        return 0;
+        fprintf(stderr, "bad file: can't open output image file: \"%s\" (-i)\n", namei);
+        return 1;
     }
 
     int lx;
     int ly;
 
-    unsigned char* stb = stbi_load(namei, &lx, &ly, NULL, 3);
+    unsigned char* stb = stbi_load(namep, &lx, &ly, NULL, 3);
     float img[lx][ly][3];
 
     int p = 0;
@@ -75,16 +75,22 @@ int main(int argc, char* argv[])
         }
     }
 
-    if(ench(lx, ly, fileo) != 0)
+    if(ench(lx, ly, filei) != 0)
     {
-        fprintf(stderr, "bad filename: unable to write image head: %s (-o)\n", nameo);
-        return 0;
+        fprintf(stderr, "bad image: can't write output image head: \"%s\" (-o)\n", namei);
+        return 1;
     }
 
-    if(encb(lx, ly, img, fileo) != 0)
+    if(encb(lx, ly, img, filei) != 0)
     {
-        fprintf(stderr, "bad filename: unable to write image body: %s (-o)\n", nameo);
-        return 0;
+        fprintf(stderr, "bad image: can't write output image body: \"%s\" (-o)\n", namei);
+        return 1;
+    }
+
+    if(fclose(filei) != 0)
+    {
+        fprintf(stderr, "bad file: can't close output file: \"%s\" (-o)\n", namei);
+        return 1;
     }
 
     return 0;
