@@ -1,16 +1,16 @@
 ulimit -s unlimited
 
-read -p "input image1: " i1
-read -p "input image2: " i2
-read -p "output image: " ii
-read -p "displacement x: " dx
-read -p "displacement y: " dy
-read -p "coefficient r1: " r1
-read -p "coefficient r2: " r2
-read -p "coefficient g1: " g1
-read -p "coefficient g2: " g2
-read -p "coefficient b1: " b1
-read -p "coefficient b2: " b2
+export i1=image1.png
+export i2=image2.png
+export ii=image.png
+export dx=0
+export dy=0
+export r1=1
+export r2=0
+export g1=0
+export g2=1
+export b1=0
+export b2=1
 
 convert $i1 img1.png # magick convert $i1 img1.png
 convert $i2 img2.png # magick convert $i2 img2.png

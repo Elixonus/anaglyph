@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
     if(filei == NULL)
     {
-        fprintf(stderr, "bad file: can't open input image file: \"%s\" (-i)\n", namei);
+        fprintf(stderr, "bad file: can't open input file: \"%s\"\n", namei);
         return 1;
     }
 
@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 
     if(dech(filei, &lx, &ly) != 0)
     {
-        fprintf(stderr, "bad image: can't read input image head: \"%s\" (-i)\n", namei);
+        fprintf(stderr, "bad image: can't read input image head: \"%s\"\n", namei);
         return 1;
     }
 
@@ -70,13 +70,13 @@ int main(int argc, char* argv[])
 
     if(decb(filei, lx, ly, img) != 0)
     {
-        fprintf(stderr, "bad image: can't read input image body: \"%s\" (-i)\n", namei);
+        fprintf(stderr, "bad image: can't read input image body: \"%s\"\n", namei);
         return 1;
     }
 
     if(fclose(filei) != 0)
     {
-        fprintf(stderr, "bad file: can't close input file: \"%s\" (-i)\n", namei);
+        fprintf(stderr, "bad file: can't close input file: \"%s\"\n", namei);
         return 1;
     }
 
@@ -94,11 +94,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    if(stbi_write_png(namep, lx, ly, 3, stb, lx * 3) != 0)
-    {
-        fprintf(stderr, "bad image: unable to write image: \"%s\" (-o)\n", namep);
-        return 1;
-    }
+    stbi_write_png(namep, lx, ly, 3, stb, lx * 3);
 
     return 0;
 }

@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
     if(filei == NULL)
     {
-        fprintf(stderr, "bad file: can't open output image file: \"%s\" (-i)\n", namei);
+        fprintf(stderr, "bad file: can't open output file: \"%s\"\n", namei);
         return 1;
     }
 
@@ -61,6 +61,7 @@ int main(int argc, char* argv[])
     int ly;
 
     unsigned char* stb = stbi_load(namep, &lx, &ly, NULL, 3);
+
     float img[lx][ly][3];
 
     int p = 0;
@@ -77,19 +78,19 @@ int main(int argc, char* argv[])
 
     if(ench(lx, ly, filei) != 0)
     {
-        fprintf(stderr, "bad image: can't write output image head: \"%s\" (-o)\n", namei);
+        fprintf(stderr, "bad image: can't write output image head: \"%s\"\n", namei);
         return 1;
     }
 
     if(encb(lx, ly, img, filei) != 0)
     {
-        fprintf(stderr, "bad image: can't write output image body: \"%s\" (-o)\n", namei);
+        fprintf(stderr, "bad image: can't write output image body: \"%s\"\n", namei);
         return 1;
     }
 
     if(fclose(filei) != 0)
     {
-        fprintf(stderr, "bad file: can't close output file: \"%s\" (-o)\n", namei);
+        fprintf(stderr, "bad file: can't close output file: \"%s\"\n", namei);
         return 1;
     }
 
