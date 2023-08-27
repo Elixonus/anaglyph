@@ -12,8 +12,8 @@ read -p "coefficient g2: " g2
 read -p "coefficient b1: " b1
 read -p "coefficient b2: " b2
 
-convert $i1 img1.png
-convert $i2 img2.png
+convert $i1 img1.png # magick convert $i1 img1.png
+convert $i2 img2.png # magick convert $i2 img2.png
 
 ./bin/png2 -i img1.png -o img1
 ./bin/png2 -i img2.png -o img2
@@ -30,6 +30,6 @@ rm -f img2
 
 rm -f img
 
-convert img.png $ii
+convert img.png $ii # magick convert img.png $ii
 
 rm -f img.png

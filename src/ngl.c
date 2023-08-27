@@ -116,13 +116,13 @@ int main(int argc, char* argv[])
 
     if(file1 == NULL)
     {
-        fprintf(stderr, "bad filename: can't open input image file 1: \"%s\" (-i1)\n", name1);
+        fprintf(stderr, "bad file: can't open input image file 1: \"%s\" (-i1)\n", name1);
         return 1;
     }
 
     if(file2 == NULL)
     {
-        fprintf(stderr, "bad filename: can't open input image file 2: \"%s\" (-i2)\n", name2);
+        fprintf(stderr, "bad file: can't open input image file 2: \"%s\" (-i2)\n", name2);
         return 1;
     }
 
@@ -164,13 +164,13 @@ int main(int argc, char* argv[])
 
     if(dech(file1, &lx1, &ly1) != 0)
     {
-        fprintf(stderr, "bad image file: can't read input image 1 head: \"%s\" (-i1)\n", name1);
+        fprintf(stderr, "bad image: can't read input image 1 head: \"%s\" (-i1)\n", name1);
         return 1;
     }
 
     if(dech(file2, &lx2, &ly2) != 0)
     {
-        fprintf(stderr, "bad image file: can't read input image 2 head: \"%s\" (-i2)\n", name2);
+        fprintf(stderr, "bad image: can't read input image 2 head: \"%s\" (-i2)\n", name2);
         return 1;
     }
 
@@ -203,25 +203,25 @@ int main(int argc, char* argv[])
 
     if(decb(file1, lx1, ly1, img1) != 0)
     {
-        fprintf(stderr, "bad image file: can't read input image 1 body: \"%s\" (-i1)\n", name1);
+        fprintf(stderr, "bad image: can't read input image 1 body: \"%s\" (-i1)\n", name1);
         return 1;
     }
 
     if(decb(file2, lx2, ly2, img2) != 0)
     {
-        fprintf(stderr, "bad image file: can't read input image 2 body: \"%s\" (-i2)\n", name2);
+        fprintf(stderr, "bad image: can't read input image 2 body: \"%s\" (-i2)\n", name2);
         return 1;
     }
 
     if(fclose(file1) != 0)
     {
-        fprintf(stderr, "bad filename: can't close input image file 1: \"%s\" (-i1)\n", name1);
+        fprintf(stderr, "bad file: can't close input file 1: \"%s\" (-i1)\n", name1);
         return 1;
     }
 
     if(fclose(file2) != 0)
     {
-        fprintf(stderr, "bad filename: can't close input image file 2: \"%s\" (-i2)\n", name2);
+        fprintf(stderr, "bad file: can't close input file 2: \"%s\" (-i2)\n", name2);
         return 1;
     }
 
@@ -285,25 +285,25 @@ int main(int argc, char* argv[])
 
     if(file == NULL)
     {
-        fprintf(stderr, "bad filename: can't open output image file: \"%s\" (-ii)\n", name);
+        fprintf(stderr, "bad file: can't open output image file: \"%s\" (-ii)\n", name);
         return 1;
     }
 
     if(ench(lx, ly, file) != 0)
     {
-        fprintf(stderr, "bad image file: can't write output image head: \"%s\" (-ii)\n", name);
+        fprintf(stderr, "bad image: can't write output image head: \"%s\" (-ii)\n", name);
         return 1;
     }
 
     if(encb(lx, ly, img, file) != 0)
     {
-        fprintf(stderr, "bad image file: can't write output image body: \"%s\" (-ii)\n", name);
+        fprintf(stderr, "bad image: can't write output image body: \"%s\" (-ii)\n", name);
         return 1;
     }
 
     if(fclose(file) != 0)
     {
-        fprintf(stderr, "bad filename: can't close output image file: \"%s\" (-ii)\n", name);
+        fprintf(stderr, "bad file: can't close output file: \"%s\" (-ii)\n", name);
         return 1;
     }
 
