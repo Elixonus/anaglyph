@@ -57,18 +57,18 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    int lx;
-    int ly;
+    int wdt;
+    int hgt;
 
-    if(dech(filei, &lx, &ly) != 0)
+    if(dech(&wdt, &hgt, filei) != 0)
     {
         fprintf(stderr, "bad image: can't read input image head: \"%s\"\n", namei);
         return 1;
     }
 
-    float img[lx][ly][3];
+    float img[wdt][hgt][3];
 
-    if(decb(filei, lx, ly, img) != 0)
+    if(decb(wdt, hgt, img, filei) != 0)
     {
         fprintf(stderr, "bad image: can't read input image body: \"%s\"\n", namei);
         return 1;
@@ -80,13 +80,13 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    unsigned char stb[lx * ly * 3];
+    unsigned char stb[wdt * hgt * 3];
 
     int p = 0;
 
-    for(int y = 0; y < ly; y++)
+    for(int y = 0; y < hgt; y++)
     {
-        for(int x = 0; x < lx; x++)
+        for(int x = 0; x < wdt; x++)
         {
             stb[p++] = (int) (255 * img[x][y][0]);
             stb[p++] = (int) (255 * img[x][y][1]);
@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    stbi_write_png(namep, lx, ly, 3, stb, lx * 3);
+    stbi_write_png(namep, wdt, hgt, 3, stb, wdt * 3);
 
     return 0;
 }

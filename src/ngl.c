@@ -2,7 +2,7 @@
 #include <string.h>
 #include "img.h"
 
-int main(int argc, char* argv[])
+int main(int argc, char* argv[argc])
 {
     char* name = "";
     char* name1 = "";
@@ -162,13 +162,13 @@ int main(int argc, char* argv[])
     int lx2;
     int ly2;
 
-    if(dech(file1, &lx1, &ly1) != 0)
+    if(dech(&lx1, &ly1, file1) != 0)
     {
         fprintf(stderr, "bad image: can't read input image 1 head: \"%s\"\n", name1);
         return 1;
     }
 
-    if(dech(file2, &lx2, &ly2) != 0)
+    if(dech(&lx2, &ly2, file2) != 0)
     {
         fprintf(stderr, "bad image: can't read input image 2 head: \"%s\"\n", name2);
         return 1;
@@ -201,13 +201,13 @@ int main(int argc, char* argv[])
     float img1[lx1][ly1][3];
     float img2[lx2][ly2][3];
 
-    if(decb(file1, lx1, ly1, img1) != 0)
+    if(decb(lx1, ly1, img1, file1) != 0)
     {
         fprintf(stderr, "bad image: can't read input image 1 body: \"%s\"\n", name1);
         return 1;
     }
 
-    if(decb(file2, lx2, ly2, img2) != 0)
+    if(decb(lx2, ly2, img2, file2) != 0)
     {
         fprintf(stderr, "bad image: can't read input image 2 body: \"%s\"\n", name2);
         return 1;

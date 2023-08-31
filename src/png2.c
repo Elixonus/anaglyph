@@ -57,18 +57,18 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    int lx;
-    int ly;
+    int wdt;
+    int hgt;
 
-    unsigned char* stb = stbi_load(namep, &lx, &ly, NULL, 3);
+    unsigned char* stb = stbi_load(namep, &wdt, &hgt, NULL, 3);
 
-    float img[lx][ly][3];
+    float img[wdt][hgt][3];
 
     int p = 0;
 
-    for(int y = 0; y < ly; y++)
+    for(int y = 0; y < hgt; y++)
     {
-        for(int x = 0; x < lx; x++)
+        for(int x = 0; x < wdt; x++)
         {
             img[x][y][0] = ((float) stb[p++]) / 255;
             img[x][y][1] = ((float) stb[p++]) / 255;
@@ -76,13 +76,13 @@ int main(int argc, char* argv[])
         }
     }
 
-    if(ench(lx, ly, filei) != 0)
+    if(ench(wdt, hgt, filei) != 0)
     {
         fprintf(stderr, "bad image: can't write output image head: \"%s\"\n", namei);
         return 1;
     }
 
-    if(encb(lx, ly, img, filei) != 0)
+    if(encb(wdt, hgt, img, filei) != 0)
     {
         fprintf(stderr, "bad image: can't write output image body: \"%s\"\n", namei);
         return 1;

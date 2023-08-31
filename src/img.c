@@ -1,18 +1,18 @@
 #include <stdio.h>
 
-int ench(int lx, int ly, FILE* file)
+int ench(int wdt, int hgt, FILE* file)
 {
-    if(lx < 1 || ly < 1)
+    if(wdt < 1 || hgt < 1)
     {
         return 1;
     }
 
-    if(fwrite(&lx, sizeof(int), 1, file) < 1)
+    if(fwrite(&wdt, sizeof(int), 1, file) < 1)
     {
         return 1;
     }
 
-    if(fwrite(&ly, sizeof(int), 1, file) < 1)
+    if(fwrite(&hgt, sizeof(int), 1, file) < 1)
     {
         return 1;
     }
@@ -20,19 +20,19 @@ int ench(int lx, int ly, FILE* file)
     return 0;
 }
 
-int dech(FILE* file, int* lx, int* ly)
+int dech(int* wdt, int* hgt, FILE* file)
 {
-    if(fread(lx, sizeof(int), 1, file) < 1)
+    if(fread(wdt, sizeof(int), 1, file) < 1)
     {
         return 1;
     }
 
-    if(fread(ly, sizeof(int), 1, file) < 1)
+    if(fread(hgt, sizeof(int), 1, file) < 1)
     {
         return 1;
     }
 
-    if(*lx < 1 || *ly < 1)
+    if(*wdt < 1 || *hgt < 1)
     {
         return 1;
     }
@@ -40,14 +40,14 @@ int dech(FILE* file, int* lx, int* ly)
     return 0;
 }
 
-int encb(int lx, int ly, float img[lx][ly][3], FILE* file)
+int encb(int wdt, int hgt, float img[wdt][hgt][3], FILE* file)
 {
-    if(lx < 1 || ly < 1)
+    if(wdt < 1 || hgt < 1)
     {
         return 1;
     }
 
-    if(fwrite(img, sizeof(float), lx * ly * 3, file) < lx * ly * 3)
+    if(fwrite(img, sizeof(float), wdt * hgt * 3, file) < wdt * hgt * 3)
     {
         return 1;
     }
@@ -55,14 +55,14 @@ int encb(int lx, int ly, float img[lx][ly][3], FILE* file)
     return 0;
 }
 
-int decb(FILE* file, int lx, int ly, float img[lx][ly][3])
+int decb(int wdt, int hgt, float img[wdt][hgt][3], FILE* file)
 {
-    if(lx < 1 || ly < 1)
+    if(wdt < 1 || hgt < 1)
     {
         return 1;
     }
 
-    if(fread(img, sizeof(float), lx * ly * 3, file) < lx * ly * 3)
+    if(fread(img, sizeof(float), wdt * hgt * 3, file) < wdt * hgt * 3)
     {
         return 1;
     }
