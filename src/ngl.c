@@ -20,9 +20,9 @@ int main(int argc, char* argv[argc])
     float cb1 = 0.5f;
     float cb2 = 0.5f;
 
-    for(int a = 1; a < argc - 1; a++)
+    for(int a = 1; a < argc; a++)
     {
-        if(strlen(argv[a]) > 0 && argv[a][0] == '-')
+        if(strlen(argv[a]) > 0 && argv[a][0] == '-' && a < argc - 1)
         {
             if(strcmp(argv[a], "-ii") == 0)
             {
