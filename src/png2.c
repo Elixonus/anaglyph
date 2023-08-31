@@ -9,9 +9,9 @@ int main(int argc, char* argv[])
     char* namep;
     char* namei;
 
-    for(int a = 1; a < argc - 1; a++)
+    for(int a = 1; a < argc; a++)
     {
-        if(strlen(argv[a]) > 0 && argv[a][0] == '-')
+        if(strlen(argv[a]) > 0 && argv[a][0] == '-' && a < argc - 1)
         {
             if(strcmp(argv[a], "-i") == 0)
             {
@@ -25,27 +25,27 @@ int main(int argc, char* argv[])
 
             else
             {
-                fprintf(stderr, "bad argument: can't recognize flagged argument: \"%s\" (%d)\n", argv[a], a);
+                fprintf(stderr, "error: argument not recognized: \"%s\" (%d)\n", argv[a], a);
                 return 1;
             }
         }
 
         else
         {
-            fprintf(stderr, "bad argument: was expecting flagged argument: \"%s\" (%d)\n", argv[a], a);
+            fprintf(stderr, "error: argument not expected: \"%s\" (%d)\n", argv[a], a);
             return 1;
         }
     }
 
     if(strlen(namep) == 0)
     {
-        fprintf(stderr, "need argument: was expecting flagged argument: -i\n");
+        fprintf(stderr, "error: argument not provided: -i\n");
         return 1;
     }
 
     if(strlen(namei) == 0)
     {
-        fprintf(stderr, "need argument: was expecting flagged argument: -o\n");
+        fprintf(stderr, "error: argument not provided: -o\n");
         return 1;
     }
 
@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
     if(filei == NULL)
     {
-        fprintf(stderr, "bad file: can't open output file: \"%s\"\n", namei);
+        fprintf(stderr, "error: file cannot be opened: \"%s\"\n", namei);
         return 1;
     }
 
@@ -78,19 +78,19 @@ int main(int argc, char* argv[])
 
     if(ench(wdt, hgt, filei) != 0)
     {
-        fprintf(stderr, "bad image: can't write output image head: \"%s\"\n", namei);
+        fprintf(stderr, "error: image head cannot be written: \"%s\"\n", namei);
         return 1;
     }
 
     if(encb(wdt, hgt, img, filei) != 0)
     {
-        fprintf(stderr, "bad image: can't write output image body: \"%s\"\n", namei);
+        fprintf(stderr, "error: image body cannot be written: \"%s\"\n", namei);
         return 1;
     }
 
     if(fclose(filei) != 0)
     {
-        fprintf(stderr, "bad file: can't close output file: \"%s\"\n", namei);
+        fprintf(stderr, "error: file cannot be closed: \"%s\"\n", namei);
         return 1;
     }
 
