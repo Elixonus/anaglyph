@@ -22,81 +22,72 @@ int main(int argc, char* argv[argc])
 
     for(int a = 1; a < argc; a++)
     {
-        if(strlen(argv[a]) > 0 && argv[a][0] == '-' && a < argc - 1)
-        {
-            if(strcmp(argv[a], "-ii") == 0)
-            {
-                name = argv[++a];
-            }
-
-            else if(strcmp(argv[a], "-i1") == 0)
-            {
-                name1 = argv[++a];
-            }
-
-            else if(strcmp(argv[a], "-i2") == 0)
-            {
-                name2 = argv[++a];
-            }
-
-            else if(strcmp(argv[a], "-dx") == 0)
-            {
-                sscanf(argv[++a], "%d", &dx);
-            }
-
-            else if(strcmp(argv[a], "-dy") == 0)
-            {
-                sscanf(argv[++a], "%d", &dy);
-            }
-
-            else if(strcmp(argv[a], "-r1") == 0)
-            {
-                sscanf(argv[++a], "%f", &cr1);
-            }
-
-            else if(strcmp(argv[a], "-r2") == 0)
-            {
-                sscanf(argv[++a], "%f", &cr2);
-            }
-
-            else if(strcmp(argv[a], "-g1") == 0)
-            {
-                sscanf(argv[++a], "%f", &cg1);
-            }
-
-            else if(strcmp(argv[a], "-g2") == 0)
-            {
-                sscanf(argv[++a], "%f", &cg2);
-            }
-
-            else if(strcmp(argv[a], "-b1") == 0)
-            {
-                sscanf(argv[++a], "%f", &cb1);
-            }
-
-            else if(strcmp(argv[a], "-b2") == 0)
-            {
-                sscanf(argv[++a], "%f", &cb2);
-            }
-
-            else
-            {
-                fprintf(stderr, "error: argument not recognized: \"%s\" (%d)\n", argv[a], a);
-                return 1;
-            }
-        }
-
-        else
+        if(strlen(argv[a]) == 0 || argv[a][0] != '-' || a >= argc - 1)
         {
             fprintf(stderr, "error: argument not expected: \"%s\" (%d)\n", argv[a], a);
             return 1;
         }
-    }
 
-    if(strlen(name) == 0)
-    {
-        fprintf(stderr, "error: argument not provided: -ii\n");
-        return 1;
+        if(strcmp(argv[a], "-ii") == 0)
+        {
+            name = argv[++a];
+        }
+
+        else if(strcmp(argv[a], "-i1") == 0)
+        {
+            name1 = argv[++a];
+        }
+
+        else if(strcmp(argv[a], "-i2") == 0)
+        {
+            name2 = argv[++a];
+        }
+
+        else if(strcmp(argv[a], "-dx") == 0)
+        {
+            sscanf(argv[++a], "%d", &dx);
+        }
+
+        else if(strcmp(argv[a], "-dy") == 0)
+        {
+            sscanf(argv[++a], "%d", &dy);
+        }
+
+        else if(strcmp(argv[a], "-r1") == 0)
+        {
+            sscanf(argv[++a], "%f", &cr1);
+        }
+
+        else if(strcmp(argv[a], "-r2") == 0)
+        {
+            sscanf(argv[++a], "%f", &cr2);
+        }
+
+        else if(strcmp(argv[a], "-g1") == 0)
+        {
+            sscanf(argv[++a], "%f", &cg1);
+        }
+
+        else if(strcmp(argv[a], "-g2") == 0)
+        {
+            sscanf(argv[++a], "%f", &cg2);
+        }
+
+        else if(strcmp(argv[a], "-b1") == 0)
+        {
+            sscanf(argv[++a], "%f", &cb1);
+        }
+
+        else if(strcmp(argv[a], "-b2") == 0)
+        {
+            sscanf(argv[++a], "%f", &cb2);
+        }
+
+        else
+        {
+            fprintf(stderr, "error: argument not recognized: \"%s\" (%d)\n", argv[a], a);
+            return 1;
+        }
     }
 
     if(strlen(name1) == 0)
@@ -111,18 +102,24 @@ int main(int argc, char* argv[argc])
         return 1;
     }
 
+    if(strlen(name) == 0)
+    {
+        fprintf(stderr, "error: argument not provided: -ii\n");
+        return 1;
+    }
+
     FILE* file1 = fopen(name1, "rb");
     FILE* file2 = fopen(name2, "rb");
 
     if(file1 == NULL)
     {
-        fprintf(stderr, "error: can't open input image file 1: \"%s\"\n", name1);
+        fprintf(stderr, "error: file cannot be opened: \"%s\"\n", name1);
         return 1;
     }
 
     if(file2 == NULL)
     {
-        fprintf(stderr, "error: can't open input image file 2: \"%s\"\n", name2);
+        fprintf(stderr, "error: file cannot be opened: \"%s\"\n", name2);
         return 1;
     }
 
@@ -164,13 +161,13 @@ int main(int argc, char* argv[argc])
 
     if(dech(&lx1, &ly1, file1) != 0)
     {
-        fprintf(stderr, "error: can't read input image 1 head: \"%s\"\n", name1);
+        fprintf(stderr, "error: image cannot be decoded: \"%s\" (head)\n", name1);
         return 1;
     }
 
     if(dech(&lx2, &ly2, file2) != 0)
     {
-        fprintf(stderr, "error: can't read input image 2 head: \"%s\"\n", name2);
+        fprintf(stderr, "error: image cannot be decoded: \"%s\" (head)\n", name2);
         return 1;
     }
 
@@ -203,25 +200,25 @@ int main(int argc, char* argv[argc])
 
     if(decb(lx1, ly1, img1, file1) != 0)
     {
-        fprintf(stderr, "error: can't read input image 1 body: \"%s\"\n", name1);
+        fprintf(stderr, "error: image cannot be decoded: \"%s\" (body)\n", name1);
         return 1;
     }
 
     if(decb(lx2, ly2, img2, file2) != 0)
     {
-        fprintf(stderr, "error: can't read input image 2 body: \"%s\"\n", name2);
+        fprintf(stderr, "error: image cannot be decoded: \"%s\" (body)\n", name2);
         return 1;
     }
 
     if(fclose(file1) != 0)
     {
-        fprintf(stderr, "error: can't close input file 1: \"%s\"\n", name1);
+        fprintf(stderr, "error: file cannot be closed: \"%s\"\n", name1);
         return 1;
     }
 
     if(fclose(file2) != 0)
     {
-        fprintf(stderr, "error: can't close input file 2: \"%s\"\n", name2);
+        fprintf(stderr, "error: file cannot be closed: \"%s\"\n", name2);
         return 1;
     }
 
@@ -285,25 +282,25 @@ int main(int argc, char* argv[argc])
 
     if(file == NULL)
     {
-        fprintf(stderr, "error: can't open output file: \"%s\"\n", name);
+        fprintf(stderr, "error: file cannot be opened: \"%s\"\n", name);
         return 1;
     }
 
     if(ench(lx, ly, file) != 0)
     {
-        fprintf(stderr, "error: can't write output image head: \"%s\"\n", name);
+        fprintf(stderr, "error: image cannot be encoded: \"%s\" (head)\n", name);
         return 1;
     }
 
     if(encb(lx, ly, img, file) != 0)
     {
-        fprintf(stderr, "error: can't write output image body: \"%s\"\n", name);
+        fprintf(stderr, "error: image cannot be encoded: \"%s\" (body)\n", name);
         return 1;
     }
 
     if(fclose(file) != 0)
     {
-        fprintf(stderr, "error: can't close output file: \"%s\"\n", name);
+        fprintf(stderr, "error: file cannot be closed: \"%s\"\n", name);
         return 1;
     }
 
