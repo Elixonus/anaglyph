@@ -3,12 +3,16 @@ ulimit -s unlimited
 export i1=image1.png
 export i2=image2.png
 export ii=image.png
+
 export dx=0
 export dy=0
+
 export r1=1
 export r2=0
+
 export g1=0
 export g2=1
+
 export b1=0
 export b2=1
 

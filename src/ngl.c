@@ -4,9 +4,9 @@
 
 int main(int argc, char* argv[argc])
 {
-    char* name = "";
-    char* name1 = "";
-    char* name2 = "";
+    char* ii = "";
+    char* i1 = "";
+    char* i2 = "";
 
     int dx = 0;
     int dy = 0;
@@ -30,17 +30,17 @@ int main(int argc, char* argv[argc])
 
         if(strcmp(argv[a], "-ii") == 0)
         {
-            name = argv[++a];
+            ii = argv[++a];
         }
 
         else if(strcmp(argv[a], "-i1") == 0)
         {
-            name1 = argv[++a];
+            i1 = argv[++a];
         }
 
         else if(strcmp(argv[a], "-i2") == 0)
         {
-            name2 = argv[++a];
+            i2 = argv[++a];
         }
 
         else if(strcmp(argv[a], "-dx") == 0)
@@ -90,36 +90,36 @@ int main(int argc, char* argv[argc])
         }
     }
 
-    if(strlen(name1) == 0)
+    if(strlen(i1) == 0)
     {
         fprintf(stderr, "error: argument not provided: -i1\n");
         return 1;
     }
 
-    if(strlen(name2) == 0)
+    if(strlen(i2) == 0)
     {
         fprintf(stderr, "error: argument not provided: -i2\n");
         return 1;
     }
 
-    if(strlen(name) == 0)
+    if(strlen(ii) == 0)
     {
         fprintf(stderr, "error: argument not provided: -ii\n");
         return 1;
     }
 
-    FILE* file1 = fopen(name1, "rb");
-    FILE* file2 = fopen(name2, "rb");
+    FILE* file1 = fopen(i1, "rb");
+    FILE* file2 = fopen(i2, "rb");
 
     if(file1 == NULL)
     {
-        fprintf(stderr, "error: file cannot be opened: \"%s\"\n", name1);
+        fprintf(stderr, "error: file cannot be opened: \"%s\"\n", i1);
         return 1;
     }
 
     if(file2 == NULL)
     {
-        fprintf(stderr, "error: file cannot be opened: \"%s\"\n", name2);
+        fprintf(stderr, "error: file cannot be opened: \"%s\"\n", i2);
         return 1;
     }
 
@@ -161,13 +161,13 @@ int main(int argc, char* argv[argc])
 
     if(dech(&lx1, &ly1, file1) != 0)
     {
-        fprintf(stderr, "error: image cannot be decoded: \"%s\" (head)\n", name1);
+        fprintf(stderr, "error: image cannot be decoded: \"%s\" (head)\n", i1);
         return 1;
     }
 
     if(dech(&lx2, &ly2, file2) != 0)
     {
-        fprintf(stderr, "error: image cannot be decoded: \"%s\" (head)\n", name2);
+        fprintf(stderr, "error: image cannot be decoded: \"%s\" (head)\n", i2);
         return 1;
     }
 
@@ -200,25 +200,25 @@ int main(int argc, char* argv[argc])
 
     if(decb(lx1, ly1, img1, file1) != 0)
     {
-        fprintf(stderr, "error: image cannot be decoded: \"%s\" (body)\n", name1);
+        fprintf(stderr, "error: image cannot be decoded: \"%s\" (body)\n", i1);
         return 1;
     }
 
     if(decb(lx2, ly2, img2, file2) != 0)
     {
-        fprintf(stderr, "error: image cannot be decoded: \"%s\" (body)\n", name2);
+        fprintf(stderr, "error: image cannot be decoded: \"%s\" (body)\n", i2);
         return 1;
     }
 
     if(fclose(file1) != 0)
     {
-        fprintf(stderr, "error: file cannot be closed: \"%s\"\n", name1);
+        fprintf(stderr, "error: file cannot be closed: \"%s\"\n", i1);
         return 1;
     }
 
     if(fclose(file2) != 0)
     {
-        fprintf(stderr, "error: file cannot be closed: \"%s\"\n", name2);
+        fprintf(stderr, "error: file cannot be closed: \"%s\"\n", i2);
         return 1;
     }
 
@@ -278,29 +278,29 @@ int main(int argc, char* argv[argc])
         }
     }
 
-    FILE* file = fopen(name, "wb");
+    FILE* file = fopen(ii, "wb");
 
     if(file == NULL)
     {
-        fprintf(stderr, "error: file cannot be opened: \"%s\"\n", name);
+        fprintf(stderr, "error: file cannot be opened: \"%s\"\n", ii);
         return 1;
     }
 
     if(ench(lx, ly, file) != 0)
     {
-        fprintf(stderr, "error: image cannot be encoded: \"%s\" (head)\n", name);
+        fprintf(stderr, "error: image cannot be encoded: \"%s\" (head)\n", ii);
         return 1;
     }
 
     if(encb(lx, ly, img, file) != 0)
     {
-        fprintf(stderr, "error: image cannot be encoded: \"%s\" (body)\n", name);
+        fprintf(stderr, "error: image cannot be encoded: \"%s\" (body)\n", ii);
         return 1;
     }
 
     if(fclose(file) != 0)
     {
-        fprintf(stderr, "error: file cannot be closed: \"%s\"\n", name);
+        fprintf(stderr, "error: file cannot be closed: \"%s\"\n", ii);
         return 1;
     }
 
