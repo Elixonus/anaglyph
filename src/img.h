@@ -1,9 +1,9 @@
 #include <stdio.h>
 
-int ench(int lx, int ly, FILE* file);
+int ench(int wdt, int hgt, FILE* file);
 
-int dech(int* lx, int* ly, FILE* file);
+int dech(int* wdt, int* hgt, FILE* file);
 
-int encb(int lx, int ly, float img[lx][ly][3], FILE* file);
+int encb(int wdt, int hgt, float img[wdt][hgt][3], FILE* file);
 
-int decb(int lx, int ly, float img[lx][ly][3], FILE* file);
+int decb(int wdt, int hgt, float img[wdt][hgt][3], FILE* file);
