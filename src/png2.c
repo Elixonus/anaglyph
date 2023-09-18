@@ -13,12 +13,12 @@ int main(int argc, char* argv[])
     {
         if(strlen(argv[a]) > 0 && argv[a][0] == '-' && a < argc - 1)
         {
-            if(strcmp(argv[a], "-i") == 0)
+            if(strcmp(argv[a], "-pg") == 0)
             {
                 namep = argv[++a];
             }
 
-            else if(strcmp(argv[a], "-o") == 0)
+            else if(strcmp(argv[a], "-im") == 0)
             {
                 namei = argv[++a];
             }
@@ -39,14 +39,33 @@ int main(int argc, char* argv[])
 
     if(strlen(namep) == 0)
     {
-        fprintf(stderr, "error: argument not provided: -i\n");
+        fprintf(stderr, "error: argument not provided: -pg\n");
         return 1;
     }
 
     if(strlen(namei) == 0)
     {
-        fprintf(stderr, "error: argument not provided: -o\n");
+        fprintf(stderr, "error: argument not provided: -im\n");
         return 1;
+    }
+
+    int w;
+    int h;
+
+    unsigned char* stb = stbi_load(namep, &w, &h, NULL, 3);
+
+    float img[w][h][3];
+
+    int p = 0;
+
+    for(int y = h - 1; y >= 0; y--)
+    {
+        for(int x = 0; x < w; x++)
+        {
+            img[x][y][0] = ((float) stb[p++]) / 255;
+            img[x][y][1] = ((float) stb[p++]) / 255;
+            img[x][y][2] = ((float) stb[p++]) / 255;
+        }
     }
 
     FILE* filei = fopen(namei, "wb");
@@ -57,32 +76,13 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    int wdt;
-    int hgt;
-
-    unsigned char* stb = stbi_load(namep, &wdt, &hgt, NULL, 3);
-
-    float img[wdt][hgt][3];
-
-    int p = 0;
-
-    for(int y = 0; y < hgt; y++)
-    {
-        for(int x = 0; x < wdt; x++)
-        {
-            img[x][y][0] = ((float) stb[p++]) / 255;
-            img[x][y][1] = ((float) stb[p++]) / 255;
-            img[x][y][2] = ((float) stb[p++]) / 255;
-        }
-    }
-
-    if(ench(wdt, hgt, filei) != 0)
+    if(ench(w, h, filei) != 0)
     {
         fprintf(stderr, "error: image head cannot be written: \"%s\"\n", namei);
         return 1;
     }
 
-    if(encb(wdt, hgt, img, filei) != 0)
+    if(encb(w, h, img, filei) != 0)
     {
         fprintf(stderr, "error: image body cannot be written: \"%s\"\n", namei);
         return 1;

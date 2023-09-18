@@ -13,12 +13,12 @@ int main(int argc, char* argv[])
     {
         if(strlen(argv[a]) > 0 && argv[a][0] == '-' && a < argc - 1)
         {
-            if(strcmp(argv[a], "-i") == 0)
+            if(strcmp(argv[a], "-im") == 0)
             {
                 namei = argv[++a];
             }
 
-            else if(strcmp(argv[a], "-o") == 0)
+            else if(strcmp(argv[a], "-pg") == 0)
             {
                 namep = argv[++a];
             }
@@ -39,13 +39,13 @@ int main(int argc, char* argv[])
 
     if(strlen(namei) == 0)
     {
-        fprintf(stderr, "error: argument not provided: -i\n");
+        fprintf(stderr, "error: argument not provided: -im\n");
         return 1;
     }
 
     if(strlen(namep) == 0)
     {
-        fprintf(stderr, "error: argument not provided: -o\n");
+        fprintf(stderr, "error: argument not provided: -pg\n");
         return 1;
     }
 
@@ -57,18 +57,18 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    int wdt;
-    int hgt;
+    int w;
+    int h;
 
-    if(dech(&wdt, &hgt, filei) != 0)
+    if(dech(&w, &h, filei) != 0)
     {
         fprintf(stderr, "error: image head cannot be read: \"%s\"\n", namei);
         return 1;
     }
 
-    float img[wdt][hgt][3];
+    float img[w][h][3];
 
-    if(decb(wdt, hgt, img, filei) != 0)
+    if(decb(w, h, img, filei) != 0)
     {
         fprintf(stderr, "error: image body cannot be read: \"%s\"\n", namei);
         return 1;
@@ -80,13 +80,13 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    unsigned char stb[wdt * hgt * 3];
+    unsigned char stb[w * h * 3];
 
     int p = 0;
 
-    for(int y = 0; y < hgt; y++)
+    for(int y = h - 1; y >= 0; y--)
     {
-        for(int x = 0; x < wdt; x++)
+        for(int x = 0; x < w; x++)
         {
             stb[p++] = (int) (255 * img[x][y][0]);
             stb[p++] = (int) (255 * img[x][y][1]);
@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    stbi_write_png(namep, wdt, hgt, 3, stb, wdt * 3);
+    stbi_write_png(namep, w, h, 3, stb, w * 3);
 
     return 0;
 }
