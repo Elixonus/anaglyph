@@ -18,13 +18,13 @@ int main(int argc, char **argv)
 	if(argc != 6) return 1;
 	if(sscanf(argv[1], "%1000s", filename) != 1) return 1;
 	if(sscanf(argv[2], "image1=%1000s", filename1) != 1) return 1;
+	if(sscanf(argv[3], "image2=%1000s", filename2) != 1) return 1;
 	file1 = fopen(filename1, "rb");
 	if(!file1) return 1;
 	if(idecodeh(&image1, file1) != 0) return 1;
 	if(icreateb(&image1) != 0) return 1;
 	if(idecodeb(&image1, file1) != 0) return 1;
 	if(fclose(file1) != 0) return 1;
-	if(sscanf(argv[3], "image2=%1000s", filename2) != 1) return 1;
 	file2 = fopen(filename2, "rb");
 	if(!file2) return 1;
 	if(idecodeh(&image2, file2) != 0) return 1;
