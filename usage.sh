@@ -16,4 +16,3 @@ convert "$image2" tmp/image2.png
 ./bin/anaglyph tmp/anaglyph image1=tmp/image1 image2=tmp/image2 "filter1=<$red1 $green1 $blue1>" "filter2=<$red2 $green2 $blue2>"
 ./bin/image2png tmp/anaglyph tmp/anaglyph.png
 convert tmp/anaglyph.png "$image"
-rm -rf tmp
